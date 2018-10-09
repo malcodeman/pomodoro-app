@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from "react";
 import styled from "styled-components";
 import {
@@ -36,10 +37,17 @@ const CTA = styled.button`
   cursor: pointer;
 `;
 
-class Home extends Component {
+type Props = {};
+
+type State = {
+  time: Date,
+  invervalId: number
+};
+
+class Home extends Component<Props, State> {
   state = {
     time: setMinutes(0, 25),
-    invervalId: null
+    invervalId: 0
   };
   startCountdown = () => {
     const invervalId = window.setInterval(this.countdown, 1000);
@@ -55,17 +63,18 @@ class Home extends Component {
   };
   stopCountdown = () => {
     window.clearInterval(this.state.invervalId);
-    this.setState({ invervalId: null, time: setMinutes(0, 25) });
+    this.setState({ invervalId: 0, time: setMinutes(0, 25) });
   };
   pauseCountdown = () => {
     window.clearInterval(this.state.invervalId);
-    this.setState({ invervalId: null });
+    this.setState({ invervalId: 0 });
   };
   render() {
+    const { time } = this.state;
     return (
       <Container>
         <Main>
-          <Text>{format(this.state.time, "mm:ss")}</Text>
+          <Text>{format(time, "mm:ss")}</Text>
           {this.state.invervalId ? (
             <CTA onClick={this.stopCountdown}>Stop</CTA>
           ) : (
