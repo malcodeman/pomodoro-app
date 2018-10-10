@@ -1,1 +1,4 @@
-{}
+{
+  "name": "pomodoro-app",
+  "alias": "pomodoro-app.now.sh"
+}
