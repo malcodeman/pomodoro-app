@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home snapshot 1`] = `
+<styled.div>
+  <styled.main>
+    <styled.h1>
+      25:00
+    </styled.h1>
+    <styled.button
+      onClick={[Function]}
+    >
+      Start
+    </styled.button>
+  </styled.main>
+</styled.div>
+`;
