@@ -1,16 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Home snapshot 1`] = `
-<styled.div>
-  <styled.main>
-    <styled.h1>
-      25:00
-    </styled.h1>
-    <styled.button
-      onClick={[Function]}
-    >
-      Start
-    </styled.button>
-  </styled.main>
-</styled.div>
+<ThemeProvider
+  theme={
+    Object {
+      "background": "#fff",
+      "borderRadius": "3px",
+      "brand": "#46bc99",
+      "primary": "rgba(0, 0, 0, 1)",
+      "secondary": "rgba(0, 0, 0, 0.8)",
+    }
+  }
+>
+  <styled.div
+    running={false}
+  >
+    <styled.main>
+      <styled.img
+        src="astronaut-helmet.svg"
+      />
+      <styled.div>
+        <styled.h1>
+          Hi there, am atronaut!
+        </styled.h1>
+        <styled.p>
+          I’ll make sure you are super productive today.
+        </styled.p>
+      </styled.div>
+      <styled.div />
+      <styled.button
+        onClick={[Function]}
+      >
+        Start
+      </styled.button>
+    </styled.main>
+  </styled.div>
+</ThemeProvider>
 `;
