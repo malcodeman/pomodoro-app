@@ -14,6 +14,16 @@ import { ThemeProvider } from "styled-components";
 import defaultTheme from "../style/themes/default";
 import runningTheme from "../style/themes/running";
 
+const ProgressBar = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background-color: ${props => props.theme.brand};
+  width: ${props => props.width}%;
+  transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+`;
+
 const Sessions = styled.span`
   position: fixed;
   left: 0;
@@ -67,7 +77,8 @@ type Props = {};
 type State = {
   session: boolean,
   cancel: boolean,
-  sessionBreak: boolean,
+  shortSessionBreak: boolean,
+  longSessionBreak: boolean,
   sessionCounter: number,
   sessionLength: number,
   shortBreakLength: number,
@@ -80,7 +91,8 @@ class Home extends Component<Props, State> {
   state = {
     session: true,
     cancel: false,
-    sessionBreak: false,
+    shortSessionBreak: false,
+    longSessionBreak: false,
     sessionCounter: 0,
     sessionLength: 25,
     shortBreakLength: 5,
@@ -125,20 +137,23 @@ class Home extends Component<Props, State> {
     if (session && sessionCounter < 3 && !cancel) {
       this.setState({
         session: false,
-        sessionBreak: true,
+        longSessionBreak: false,
+        shortSessionBreak: true,
         time: setMinutes(0, shortBreakLength)
       });
     } else if (session && sessionCounter === 3 && !cancel) {
       this.setState({
         session: false,
-        sessionBreak: true,
+        shortSessionBreak: false,
+        longSessionBreak: true,
         sessionCounter: 0,
         time: setMinutes(0, longBreakLength)
       });
     } else {
       this.setState({
+        shortSessionBreak: false,
+        longSessionBreak: false,
         session: true,
-        sessionBreak: false,
         time: setMinutes(0, sessionLength)
       });
     }
@@ -159,11 +174,33 @@ class Home extends Component<Props, State> {
     }
     return defaultTheme;
   };
+  getPercentage = () => {
+    const {
+      shortSessionBreak,
+      longSessionBreak,
+      sessionLength,
+      shortBreakLength,
+      longBreakLength,
+      time
+    } = this.state;
+
+    let total = sessionLength * 60;
+    if (shortSessionBreak) {
+      total = shortBreakLength * 60;
+    } else if (longSessionBreak) {
+      total = longBreakLength * 60;
+    }
+    const current = getSeconds(time) + getMinutes(time) * 60;
+    const actual = total - current;
+    const percentage = (actual / total) * 100;
+    return percentage;
+  };
   render() {
     const { time, invervalID, sessionCounter } = this.state;
     return (
       <ThemeProvider theme={this.getTheme()}>
         <Container>
+          {invervalID ? <ProgressBar width={this.getPercentage()} /> : null}
           <Sessions>Sessions: {sessionCounter}</Sessions>
           <Main>
             <Time>{format(time, "mm:ss")}</Time>
