@@ -12,22 +12,15 @@ exports[`Home snapshot 1`] = `
     }
   }
 >
-  <styled.div
-    running={false}
-  >
+  <styled.div>
+    <styled.span>
+      Sessions: 
+      0
+    </styled.span>
     <styled.main>
-      <styled.img
-        src="astronaut-helmet.svg"
-      />
-      <styled.div>
-        <styled.h1>
-          Hi there, am atronaut!
-        </styled.h1>
-        <styled.p>
-          I’ll make sure you are super productive today.
-        </styled.p>
-      </styled.div>
-      <styled.div />
+      <styled.h1>
+        25:00
+      </styled.h1>
       <styled.button
         onClick={[Function]}
       >
