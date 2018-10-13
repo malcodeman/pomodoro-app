@@ -35,6 +35,16 @@ const Sessions = styled.span`
   color: ${props => props.theme.primary};
 `;
 
+const DevTools = styled.div`
+  position: fixed;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 16px;
+  color: ${props => props.theme.primary};
+`;
+
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -57,6 +67,9 @@ const CTAButton = styled.button`
   padding: 10px 16px;
   background-color: ${props => props.theme.brand};
   cursor: pointer;
+  :disabled {
+    opacity: 0.4;
+  }
 `;
 
 const GhostButton = styled.button`
@@ -87,7 +100,8 @@ type State = {
   shortBreakLength: number,
   longBreakLength: number,
   time: Date,
-  invervalID: number
+  invervalID: number,
+  devTools: boolean
 };
 
 class Home extends Component<Props, State> {
@@ -101,7 +115,8 @@ class Home extends Component<Props, State> {
     shortBreakLength: 5,
     longBreakLength: 20,
     time: setMinutes(0, 25),
-    invervalID: 0
+    invervalID: 0,
+    devTools: Boolean(localStorage.getItem("devTools"))
   };
   startCountdown = () => {
     const invervalID = window.setInterval(this.countdown, 1000);
@@ -198,13 +213,29 @@ class Home extends Component<Props, State> {
     const percentage = (actual / total) * 100;
     return percentage;
   };
+  zeroOut = () => {
+    const { invervalID } = this.state;
+
+    if (invervalID !== 0) {
+      this.setState({
+        time: setMinutes(0, 0)
+      });
+    }
+  };
   render() {
-    const { time, invervalID, sessionCounter } = this.state;
+    const { time, invervalID, sessionCounter, devTools } = this.state;
     return (
       <ThemeProvider theme={this.getTheme()}>
         <Container>
           {invervalID ? <ProgressBar width={this.getPercentage()} /> : null}
           <Sessions>Sessions: {sessionCounter}</Sessions>
+          {devTools ? (
+            <DevTools>
+              <CTAButton onClick={this.zeroOut} disabled={invervalID === 0}>
+                Zero out
+              </CTAButton>
+            </DevTools>
+          ) : null}
           <Main>
             <Time>{format(time, "mm:ss")}</Time>
             {invervalID ? (
