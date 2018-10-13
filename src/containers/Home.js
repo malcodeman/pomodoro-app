@@ -14,13 +14,16 @@ import { ThemeProvider } from "styled-components";
 import defaultTheme from "../style/themes/default";
 import runningTheme from "../style/themes/running";
 
-const ProgressBar = styled.div`
+const ProgressBar = styled.div.attrs({
+  style: props => ({
+    width: `${props.width}%`
+  })
+})`
   position: fixed;
   top: 0;
   left: 0;
   height: 2px;
   background-color: ${props => props.theme.brand};
-  width: ${props => props.width}%;
   transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 `;
 
