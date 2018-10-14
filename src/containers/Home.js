@@ -228,20 +228,31 @@ class Home extends Component<Props, State> {
       <ThemeProvider theme={this.getTheme()}>
         <Container>
           {invervalID ? <ProgressBar width={this.getPercentage()} /> : null}
-          <Sessions>Sessions: {sessionCounter}</Sessions>
+          <Sessions data-cy="session-counter">
+            Sessions: {sessionCounter}
+          </Sessions>
           {devTools ? (
             <DevTools>
-              <CTAButton onClick={this.zeroOut} disabled={invervalID === 0}>
+              <CTAButton
+                data-cy="zero-out"
+                onClick={this.zeroOut}
+                disabled={invervalID === 0}
+              >
                 Zero out
               </CTAButton>
             </DevTools>
           ) : null}
           <Main>
-            <Time>{format(time, "mm:ss")}</Time>
+            <Time data-cy="time">{format(time, "mm:ss")}</Time>
             {invervalID ? (
               <GhostButton onClick={this.cancelSession}>cancel</GhostButton>
             ) : (
-              <CTAButton onClick={this.startCountdown}>Start</CTAButton>
+              <CTAButton
+                data-cy="start-countdown"
+                onClick={this.startCountdown}
+              >
+                Start
+              </CTAButton>
             )}
           </Main>
         </Container>

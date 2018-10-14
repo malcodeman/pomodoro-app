@@ -13,15 +13,20 @@ exports[`Home snapshot 1`] = `
   }
 >
   <styled.div>
-    <styled.span>
+    <styled.span
+      data-cy="session-counter"
+    >
       Sessions: 
       0
     </styled.span>
     <styled.main>
-      <styled.h1>
+      <styled.h1
+        data-cy="time"
+      >
         25:00
       </styled.h1>
       <styled.button
+        data-cy="start-countdown"
         onClick={[Function]}
       >
         Start
