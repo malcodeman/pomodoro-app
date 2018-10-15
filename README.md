@@ -22,4 +22,4 @@ npm start
 
 ## License
 
-Polaroid is [MIT licensed](./LICENSE).
+Pomodoro is [MIT licensed](./LICENSE).
