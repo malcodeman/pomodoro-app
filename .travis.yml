@@ -15,7 +15,7 @@ script:
 before_deploy: npm install now --no-save
 deploy:
   - provider: script
-    script: now rm pomodoro-app --safe --yes && now --token $NOW_TOKEN --public
+    script: now --token $NOW_TOKEN rm pomodoro-app --safe --yes && now --token $NOW_TOKEN --public
     skip_cleanup: true
     on:
       all_branches: true
