@@ -14,16 +14,9 @@ script:
   - npm run cypress:all --config videoRecording=false
 before_deploy: npm install now --no-save
 deploy:
-  - provider: script
-    script: now --token $NOW_TOKEN --public
-    skip_cleanup: true
-    on:
-      all_branches: true
-      master: false
-  - provider: script
-    script: now --token $NOW_TOKEN --public && now alias --token $NOW_TOKEN
-    skip_cleanup: true
-    on:
-      master: true
+  script: now --token $NOW_TOKEN --no-verify && now alias --token $NOW_TOKEN
+  skip_cleanup: true
+  on:
+    master: true
 after_deploy:
-  - now --token $NOW_TOKEN rm pomodoro-app --safe --yes
+  - now --token $NOW_TOKEN rm alias --safe --yes
