@@ -12,7 +12,7 @@ before_script:
 script:
   - npm test
   - npm run cypress:all --config videoRecording=false
-before_deploy: npm install now --no-save && now --token $NOW_TOKEN rm pomodoro-app --safe --yes
+before_deploy: npm install now --no-save
 deploy:
   - provider: script
     script: now --token $NOW_TOKEN --public
@@ -25,3 +25,5 @@ deploy:
     skip_cleanup: true
     on:
       master: true
+after_deploy:
+  - now --token $NOW_TOKEN rm pomodoro-app --safe --yes
