@@ -10,7 +10,9 @@
 Small, simple and sweet time management app. Inspired by [Pops](https://www.producthunt.com/posts/pops).
 
 ## Table of Contents
+
 - [Usage](#usage)
+- [Credits](#credits)
 - [License](#license)
 
 ## Usage
@@ -19,6 +21,12 @@ Small, simple and sweet time management app. Inspired by [Pops](https://www.prod
 npm install
 npm start
 ```
+
+## Credits
+
+Huge ❤️ to:
+
+* [Roman Zimarev for providing emoji sounds for free](https://emojisounds.appsounds.pro/)
 
 ## License
 
