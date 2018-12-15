@@ -10,6 +10,8 @@ import {
 } from "date-fns";
 import { ThemeProvider } from "styled-components";
 
+import notificaionSound from "./sounds/notification.wav";
+
 // Themes
 import defaultTheme from "../style/themes/default";
 import runningTheme from "../style/themes/running";
@@ -118,23 +120,33 @@ class Home extends Component<Props, State> {
     invervalID: 0,
     devTools: Boolean(localStorage.getItem("devTools"))
   };
+
   startCountdown = () => {
     const invervalID = window.setInterval(this.countdown, 1000);
     this.setState({ invervalID });
   };
+
+  playNotificationSound = () => {
+    const notification = new Audio(notificaionSound);
+    notification.play();
+  };
+
   countdown = () => {
     const { time } = this.state;
 
     if (getMinutes(time) === 0 && getSeconds(time) === 0) {
       this.stopCountdown();
+      this.playNotificationSound();
       return;
     }
     this.setState({ time: subSeconds(time, 1) });
   };
+
   cancelSession = async () => {
     await this.setState({ cancel: true });
     this.stopCountdown();
   };
+
   stopCountdown = () => {
     const {
       session,
@@ -178,12 +190,14 @@ class Home extends Component<Props, State> {
     window.clearInterval(invervalID);
     this.setState({ invervalID: 0 });
   };
+
   pauseCountdown = () => {
     const { invervalID } = this.state;
 
     window.clearInterval(invervalID);
     this.setState({ invervalID: 0 });
   };
+
   getTheme = () => {
     const { invervalID } = this.state;
 
@@ -192,6 +206,7 @@ class Home extends Component<Props, State> {
     }
     return defaultTheme;
   };
+
   getPercentage = () => {
     const {
       shortSessionBreak,
@@ -213,6 +228,7 @@ class Home extends Component<Props, State> {
     const percentage = (actual / total) * 100;
     return percentage;
   };
+
   zeroOut = () => {
     const { invervalID } = this.state;
 
@@ -222,6 +238,7 @@ class Home extends Component<Props, State> {
       });
     }
   };
+
   render() {
     const { time, invervalID, sessionCounter, devTools } = this.state;
     return (
