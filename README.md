@@ -9,6 +9,8 @@
 
 Small, simple and sweet time management app. Inspired by [Pops](https://www.producthunt.com/posts/pops).
 
+![Screenshot](docs/images/screenshot.png)
+
 ## Table of Contents
 
 - [Usage](#usage)
@@ -16,6 +18,8 @@ Small, simple and sweet time management app. Inspired by [Pops](https://www.prod
 - [License](#license)
 
 ## Usage
+
+To enable development tools simply add `devTools` key to local storage and set it to `true`.
 
 ```
 npm install
