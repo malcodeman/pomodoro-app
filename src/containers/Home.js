@@ -118,7 +118,7 @@ class Home extends Component<Props, State> {
     longBreakLength: 20,
     time: setMinutes(0, 25),
     invervalID: 0,
-    devTools: Boolean(localStorage.getItem("devTools"))
+    devTools: Boolean(localStorage.getItem("devTools") === "true")
   };
 
   startCountdown = () => {
