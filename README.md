@@ -5,7 +5,7 @@
 [![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
 [![Cypress.io tests](https://img.shields.io/badge/cypress.io-tests-green.svg?style=flat-square)](https://cypress.io)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/facebook/react/blob/master/LICENSE)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/malcodeman/pomodoro-app/blob/master/LICENSE)
 
 Small, simple and sweet time management app. Inspired by [Pops](https://www.producthunt.com/posts/pops).
 
@@ -30,7 +30,7 @@ npm start
 
 Huge ❤️ to:
 
-* [Roman Zimarev for providing emoji sounds for free](https://emojisounds.appsounds.pro/)
+* [Roman Zimarev](https://emojisounds.appsounds.pro) for providing emoji sounds for free.
 
 ## License
 
