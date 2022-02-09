@@ -1,8 +1,0 @@
-{
-  "name": "pomodoro-app",
-  "alias": "pomodoro-app.now.sh",
-  "public": true,
-  "env": {
-    "NODE_ENV": "production"
-  }
-}
