@@ -11,6 +11,7 @@ import {
 } from "date-fns";
 import { and, equals, inc } from "ramda";
 import Head from "next/head";
+import useSound from "use-sound";
 import type { NextPage } from "next";
 
 const SESSIONS = {
@@ -26,6 +27,7 @@ const Home: NextPage = () => {
   const interval = useInterval(() => {
     setTime((current) => subSeconds(current, 1));
   }, secondsToMilliseconds(1));
+  const [play] = useSound("./notification.wav");
 
   function getNextTime(counter: number) {
     if (equals(counter, 4)) {
@@ -41,6 +43,7 @@ const Home: NextPage = () => {
     const seconds = getSeconds(time);
     if (and(equals(minutes, 0), equals(seconds, 0))) {
       interval.stop();
+      play();
       setTime(getNextTime(sessionCounter));
       setSessionCounter((current) => (equals(current, 4) ? -1 : inc(current)));
     }
