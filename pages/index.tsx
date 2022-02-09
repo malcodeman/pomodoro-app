@@ -6,7 +6,7 @@ import {
   Group,
   useMantineColorScheme,
 } from "@mantine/core";
-import { useInterval } from "@mantine/hooks";
+import { useInterval, useLocalStorageValue } from "@mantine/hooks";
 import {
   format,
   getMinutes,
@@ -15,7 +15,7 @@ import {
   subSeconds,
   secondsToMilliseconds,
 } from "date-fns";
-import { and, equals, inc } from "ramda";
+import { and, equals, inc, toString } from "ramda";
 import Head from "next/head";
 import useSound from "use-sound";
 import type { NextPage } from "next";
@@ -27,7 +27,10 @@ const SESSIONS = {
 };
 
 const Home: NextPage = () => {
-  const devTools = true;
+  const [devTools] = useLocalStorageValue({
+    key: "dev-tools",
+    defaultValue: toString(false),
+  });
   const [sessionCounter, setSessionCounter] = React.useState(0);
   const [time, setTime] = React.useState(setMinutes(0, SESSIONS.DEFAULT));
   const interval = useInterval(() => {
@@ -75,7 +78,7 @@ const Home: NextPage = () => {
         <title>Pomodoro</title>
       </Head>
       <main>
-        {devTools ? (
+        {JSON.parse(devTools) ? (
           <Button
             sx={{ position: "fixed", top: 0, right: 0, margin: "16px" }}
             variant={"default"}
