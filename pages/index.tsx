@@ -1,5 +1,11 @@
 import React from "react";
-import { Center, Button, Text, Group } from "@mantine/core";
+import {
+  Center,
+  Button,
+  Text,
+  Group,
+  useMantineColorScheme,
+} from "@mantine/core";
 import { useInterval } from "@mantine/hooks";
 import {
   format,
@@ -28,6 +34,7 @@ const Home: NextPage = () => {
     setTime((current) => subSeconds(current, 1));
   }, secondsToMilliseconds(1));
   const [play] = useSound("./notification.wav");
+  const { toggleColorScheme } = useMantineColorScheme();
 
   function getNextTime(counter: number) {
     if (equals(counter, 4)) {
@@ -48,6 +55,14 @@ const Home: NextPage = () => {
       setSessionCounter((current) => (equals(current, 4) ? -1 : inc(current)));
     }
   }, [time]);
+
+  React.useEffect(() => {
+    if (interval.active) {
+      toggleColorScheme("dark");
+    } else {
+      toggleColorScheme("light");
+    }
+  }, [interval.active]);
 
   function zeroOut() {
     interval.stop();
