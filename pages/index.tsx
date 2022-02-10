@@ -15,7 +15,7 @@ import {
   subSeconds,
   secondsToMilliseconds,
 } from "date-fns";
-import { and, equals, inc, toString } from "ramda";
+import { and, equals, inc, toString, or } from "ramda";
 import Head from "next/head";
 import useSound from "use-sound";
 import type { NextPage } from "next";
@@ -32,6 +32,7 @@ const Home: NextPage = () => {
     defaultValue: toString(false),
   });
   const [sessionCounter, setSessionCounter] = React.useState(0);
+  const [defaultSessionCounter, setDefaultSessionCounter] = React.useState(0);
   const [time, setTime] = React.useState(setMinutes(0, SESSIONS.DEFAULT));
   const interval = useInterval(() => {
     setTime((current) => subSeconds(current, 1));
@@ -52,12 +53,21 @@ const Home: NextPage = () => {
     const minutes = getMinutes(time);
     const seconds = getSeconds(time);
     if (and(equals(minutes, 0), equals(seconds, 0))) {
+      const nextTime = getNextTime(sessionCounter);
+      if (
+        or(
+          equals(getMinutes(nextTime), SESSIONS.SHORT_BREAK),
+          equals(getMinutes(nextTime), SESSIONS.LONG_BREAK)
+        )
+      ) {
+        setDefaultSessionCounter((current) => inc(current));
+      }
       interval.stop();
       play();
-      setTime(getNextTime(sessionCounter));
+      setTime(nextTime);
       setSessionCounter((current) => (equals(current, 4) ? -1 : inc(current)));
     }
-  }, [time]);
+  }, [time, interval, sessionCounter, play]);
 
   React.useEffect(() => {
     if (interval.active) {
@@ -65,7 +75,7 @@ const Home: NextPage = () => {
     } else {
       toggleColorScheme("light");
     }
-  }, [interval.active]);
+  }, [interval.active, toggleColorScheme]);
 
   function zeroOut() {
     interval.stop();
@@ -78,6 +88,9 @@ const Home: NextPage = () => {
         <title>Pomodoro</title>
       </Head>
       <main>
+        <Text sx={{ position: "fixed", left: 0, top: 0, margin: "16px" }}>
+          Sessions: {defaultSessionCounter}
+        </Text>
         {JSON.parse(devTools) ? (
           <Button
             sx={{ position: "fixed", top: 0, right: 0, margin: "16px" }}
