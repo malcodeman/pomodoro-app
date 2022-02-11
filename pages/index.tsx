@@ -16,6 +16,7 @@ import {
   subSeconds,
   secondsToMilliseconds,
   minutesToSeconds,
+  subMinutes,
 } from "date-fns";
 import { and, equals, inc, toString, or, sum } from "ramda";
 import Head from "next/head";
@@ -124,14 +125,27 @@ const Home: NextPage = () => {
           Sessions: {defaultSessionCounter}
         </Text>
         {JSON.parse(devTools) ? (
-          <Button
+          <Group
+            direction={"column"}
             sx={{ position: "fixed", top: 0, right: 0, margin: "16px" }}
-            variant={"default"}
-            disabled={!interval.active}
-            onClick={zeroOut}
           >
-            Zero out
-          </Button>
+            <Button
+              fullWidth
+              variant={"default"}
+              disabled={!interval.active}
+              onClick={zeroOut}
+            >
+              Zero out
+            </Button>
+            <Button
+              fullWidth
+              variant={"default"}
+              disabled={or(!interval.active, getMinutes(time) < 1)}
+              onClick={() => setTime((current) => subMinutes(current, 1))}
+            >
+              Sub minute
+            </Button>
+          </Group>
         ) : null}
         <Center sx={{ minHeight: "100vh" }}>
           <Group direction={"column"} align={"center"}>
