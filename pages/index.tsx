@@ -5,6 +5,7 @@ import {
   Text,
   Group,
   useMantineColorScheme,
+  Box,
 } from "@mantine/core";
 import { useInterval, useLocalStorageValue } from "@mantine/hooks";
 import {
@@ -14,8 +15,9 @@ import {
   setMinutes,
   subSeconds,
   secondsToMilliseconds,
+  minutesToSeconds,
 } from "date-fns";
-import { and, equals, inc, toString, or } from "ramda";
+import { and, equals, inc, toString, or, sum } from "ramda";
 import Head from "next/head";
 import useSound from "use-sound";
 import type { NextPage } from "next";
@@ -42,11 +44,11 @@ const Home: NextPage = () => {
 
   function getNextTime(counter: number) {
     if (equals(counter, 4)) {
-      return setMinutes(0, SESSIONS.LONG_BREAK);
+      return SESSIONS.LONG_BREAK;
     } else if (equals(counter % 2, 0)) {
-      return setMinutes(0, SESSIONS.SHORT_BREAK);
+      return SESSIONS.SHORT_BREAK;
     }
-    return setMinutes(0, SESSIONS.DEFAULT);
+    return SESSIONS.DEFAULT;
   }
 
   React.useEffect(() => {
@@ -56,15 +58,15 @@ const Home: NextPage = () => {
       const nextTime = getNextTime(sessionCounter);
       if (
         or(
-          equals(getMinutes(nextTime), SESSIONS.SHORT_BREAK),
-          equals(getMinutes(nextTime), SESSIONS.LONG_BREAK)
+          equals(nextTime, SESSIONS.SHORT_BREAK),
+          equals(nextTime, SESSIONS.LONG_BREAK)
         )
       ) {
         setDefaultSessionCounter((current) => inc(current));
       }
       interval.stop();
       play();
-      setTime(nextTime);
+      setTime(setMinutes(0, nextTime));
       setSessionCounter((current) => (equals(current, 4) ? -1 : inc(current)));
     }
   }, [time, interval, sessionCounter, play]);
@@ -82,12 +84,42 @@ const Home: NextPage = () => {
     setTime(setMinutes(0, 0));
   }
 
+  function getPercentage(partial: number, total: number) {
+    return ((100 * partial) / total).toFixed(2);
+  }
+
+  function getCurrentSession(counter: number) {
+    if (equals(counter, -1)) {
+      return SESSIONS.LONG_BREAK;
+    }
+    return getNextTime(counter - 1);
+  }
+
+  function calculateProgress(time: Date) {
+    const total = minutesToSeconds(getCurrentSession(sessionCounter));
+    const current = sum([getSeconds(time), minutesToSeconds(getMinutes(time))]);
+    return getPercentage(total - current, total);
+  }
+
   return (
     <div>
       <Head>
         <title>Pomodoro</title>
       </Head>
       <main>
+        {interval.active ? (
+          <Box
+            sx={{
+              position: "fixed",
+              left: 0,
+              top: 0,
+              height: 2,
+              backgroundColor: "#a9e34b",
+              width: `${calculateProgress(time)}%`,
+              transition: "width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)",
+            }}
+          />
+        ) : null}
         <Text sx={{ position: "fixed", left: 0, top: 0, margin: "16px" }}>
           Sessions: {defaultSessionCounter}
         </Text>
