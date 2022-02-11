@@ -1,8 +1,0 @@
-{
-  "baseUrl": "http://localhost:3000",
-  "env": {
-    "sessionLength": 25,
-    "shortBreakLength": 5,
-    "longBreakLength": 20
-  }
-}
